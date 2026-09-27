@@ -121,20 +121,7 @@ The same sample also gets a warning, because its province is "nan". Its breed "U
 The ideal records pass with no violations and no warnings, and every planted problem is found.
 The full output is in `reports/summary_examples.txt`, and the full SHACL reports are in `reports/`.
 
-### What the validation showed about the ontology itself
 
-The `DeclaredPropertyShape` checks that every LHO property used in the data is declared in the
-ontology. Run against the earlier LHO version (v1.4), it warned on three properties used by the mapping scripts:
-`LHO:hasResult`, `LHO:hasProductionStages` and `LHO:CS61`. I fixed this in LHO v1.5 (included in `ontology/`):
-
-- `LHO:hasResult` is now declared, as a subproperty of `LHO:hasSampleResult`.
-- `LHO:hasProductionStages` is now declared, with range `LHO:LivestockProductionStages`.
-- the class name `LivestockProductionSatges` was corrected to `LivestockProductionStages`.
-- `LHO:CS61` is a lab reference individual in the ontology, so salmon mortality is linked with the
-  declared property `LHO:CS58` (hasMortality).
-
-With v1.5 these warnings no longer appear. This is a good example of how SHACL helps to keep the
-ontology and the data that use it in line.
 
 ## How to run it
 
