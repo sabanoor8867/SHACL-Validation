@@ -136,6 +136,73 @@ ontology. Run against the earlier LHO version (v1.4), it warned on three propert
 With v1.5 these warnings no longer appear. This is a good example of how SHACL helps to keep the
 ontology and the data that use it in line.
 
+## Current pipeline and how it can become an RML–SHACL pipeline
+
+### Current pipeline in DECIDE
+
+Laboratories deliver their diagnostic data as CSV, Excel or PDF files, each with its own columns,
+codes and languages. For every laboratory, a Python (pandas, PySpark) or R notebook cleans the data,
+anonymises farm and sample identifiers with SHA-256, and writes RDF with RDFLib, using the LHO
+classes and properties. The RDF is then stored in a triplestore (Virtuoso) or in one Solid Pod per
+laboratory, queried with SPARQL, and used for the barometer dashboards and for federated learning.
+
+```mermaid
+flowchart LR
+    L1["Lab 1 export<br/>(CSV / Excel / PDF)"] --> P1["Python / R notebook<br/>lab 1"]
+    L2["Lab 2 export"] --> P2["Python / R notebook<br/>lab 2"]
+    L3["Lab n export"] --> P3["Python / R notebook<br/>lab n"]
+    P1 --> R1["RDF (Turtle)<br/>mapped to LHO"]
+    P2 --> R1
+    P3 --> R1
+    R1 --> S["Virtuoso or<br/>Solid Pods"]
+    S --> Q["SPARQL"]
+    Q --> D["Dashboards, federated<br/>data access and learning"]
+```
+
+In this pipeline the mapping rules are inside the code of each notebook, and there is no automatic
+check of the RDF before it is published. Running the shapes in this repository on the existing lab
+exports showed the kind of problems this causes: missing test results, dates in different formats,
+placeholder values and properties that were not declared in the ontology.
+
+### Towards an RML–SHACL pipeline
+
+The same steps can be organised in three separate parts:
+
+1. **Preparation** (Python): only the steps that need code, such as anonymisation and recoding lab
+   specific values (for example "Pos" or "+++" to 1).
+2. **Mapping** (RML): one mapping file per data layout describes which column becomes which LHO
+   property. An RML engine such as Morph-KGC produces the RDF.
+3. **Validation** (SHACL): the shapes in this repository check the RDF before it is loaded. Only data
+   without violations are published; the validation report goes back to the person who prepared the
+   data.
+
+```mermaid
+flowchart LR
+    L["Lab exports<br/>(CSV / Excel)"] --> PR["Preparation<br/>(Python: anonymise,<br/>recode values)"]
+    PR --> C["Clean CSV"]
+    C --> M{"RML engine<br/>(Morph-KGC)"}
+    Y["RML mapping<br/>(YARRRML, one per layout)"] --> M
+    O["LHO ontology"] --> Y
+    M --> R["RDF (Turtle)"]
+    R --> V{"SHACL validation<br/>(pySHACL)"}
+    SH["SHACL shapes"] --> V
+    V -->|"no violations"| S["Virtuoso or Solid Pods"]
+    V -->|"violations"| REP["Validation report"]
+    REP --> PR
+    S --> Q["SPARQL, dashboards,<br/>federated learning"]
+```
+
+| Step | Current pipeline | RML–SHACL pipeline |
+|---|---|---|
+| Mapping to LHO | written in Python or R code, one notebook per lab | written as RML rules in a mapping file; the same file is reused for labs with the same layout |
+| Change in a column name or a new lab | edit and test the code | edit or add one mapping file |
+| Checking the RDF | manual, after problems show up in queries or dashboards | automatic SHACL check before the data are loaded |
+| Feedback to data providers | informal | a validation report per file, listing each record and problem |
+
+Some steps stay in Python, because they are not mapping rules: anonymisation, recoding lab specific
+values, and reading PDF files. RML can call functions (for example through the Function Ontology),
+but keeping these steps in a small preparation script is simpler to maintain.
+
 ## How to run it
 
 ```bash
