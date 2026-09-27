@@ -1,0 +1,49 @@
+
+cattle_example.ttl
+  samples checked : 5
+  samples with issues: 3
+  conforms (no violations): False
+  violations: 4, warnings: 1
+        2 x [Violation] Result must be given once, as LHO:0 (negative) or LHO:1 (positive).
+        1 x [Violation] Cattle sample needs exactly one of the seven BRD pathogens (BRSV, BCV, PI3, MH, PM, HS, MB).
+        1 x [Violation] One date is required, written as an ISO date (YYYY-MM-DD), so that data from different labs can be combined.
+        1 x [Warning] Province is 'nan' (a conversion artefact); write it as Missing.
+  full report: reports/cattle_example_report.ttl
+
+ideal_example.ttl
+  samples checked : 4
+  samples with issues: 0
+  conforms (no violations): True
+  violations: 0, warnings: 0
+  full report: reports/ideal_example_report.ttl
+
+pig_example.ttl
+  samples checked : 4
+  samples with issues: 2
+  conforms (no violations): False
+  violations: 2, warnings: 1
+        1 x [Violation] Result must be given once, as LHO:0 (negative) or LHO:1 (positive). A missing result cannot be counted as negative.
+        1 x [Warning] Sample type is not one of the LHO sample type classes (Tissue, Fluid, Swab, Feces, Blood).
+        1 x [Violation] A pig sample can have at most one production stage.
+  full report: reports/pig_example_report.ttl
+
+poultry_example.ttl
+  samples checked : 4
+  samples with issues: 2
+  conforms (no violations): False
+  violations: 3, warnings: 0
+        1 x [Violation] Pathogen must be one of the IBV genotypes in the Poultry Barometer catalogue, or 'other'.
+        1 x [Violation] Poultry sample needs exactly one production stage (for example Broiler).
+        1 x [Violation] One date is required, written as an ISO date (YYYY-MM-DD) or a quarter (YYYY-Qn), as used in the Poultry Barometer.
+  full report: reports/poultry_example_report.ttl
+
+salmon_example.ttl
+  samples checked : 4
+  samples with issues: 2
+  conforms (no violations): False
+  violations: 4, warnings: 0
+        1 x [Violation] Monthly report needs exactly one mortality value (kg), linked with LHO:CS58 (hasMortality).
+        1 x [Violation] Water type must be Seawater or Freshwater.
+        1 x [Violation] A report can have at most one local authority.
+        1 x [Violation] One date is required, written as an ISO date (YYYY-MM-DD).
+  full report: reports/salmon_example_report.ttl

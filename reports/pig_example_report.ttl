@@ -1,0 +1,41 @@
+@prefix LHO: <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExamplePigSample_3 ;
+            sh:resultMessage "Result must be given once, as LHO:0 (negative) or LHO:1 (positive). A missing result cannot be counted as negative." ;
+            sh:resultPath LHO:hasResult ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+            sh:sourceShape [ sh:in ( LHO:0 LHO:1 ) ;
+                    sh:maxCount 1 ;
+                    sh:message "Result must be given once, as LHO:0 (negative) or LHO:1 (positive). A missing result cannot be counted as negative." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:hasResult ] ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExamplePigSample_4 ;
+            sh:resultMessage "Sample type is not one of the LHO sample type classes (Tissue, Fluid, Swab, Feces, Blood)." ;
+            sh:resultPath LHO:hasSampleType ;
+            sh:resultSeverity sh:Warning ;
+            sh:sourceConstraintComponent sh:InConstraintComponent ;
+            sh:sourceShape [ sh:in ( LHO:Tissue LHO:Fluid LHO:Swab LHO:Feces LHO:Blood ) ;
+                    sh:maxCount 1 ;
+                    sh:message "Sample type is not one of the LHO sample type classes (Tissue, Fluid, Swab, Feces, Blood)." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:hasSampleType ;
+                    sh:severity sh:Warning ] ;
+            sh:value LHO:Mixed ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExamplePigSample_4 ;
+            sh:resultMessage "A pig sample can have at most one production stage." ;
+            sh:resultPath LHO:hasProductionStages ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MaxCountConstraintComponent ;
+            sh:sourceShape [ sh:maxCount 1 ;
+                    sh:message "A pig sample can have at most one production stage." ;
+                    sh:path LHO:hasProductionStages ] ] .
+

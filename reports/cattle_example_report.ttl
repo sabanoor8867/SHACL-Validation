@@ -1,0 +1,66 @@
+@prefix LHO: <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleCattleSample_3 ;
+            sh:resultMessage "Province is 'nan' (a conversion artefact); write it as Missing." ;
+            sh:resultPath LHO:hasProvince ;
+            sh:resultSeverity sh:Warning ;
+            sh:sourceConstraintComponent sh:NotConstraintComponent ;
+            sh:sourceShape [ sh:message "Province is 'nan' (a conversion artefact); write it as Missing." ;
+                    sh:not [ sh:in ( LHO:nan ) ] ;
+                    sh:path LHO:hasProvince ;
+                    sh:severity sh:Warning ] ;
+            sh:value LHO:nan ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleCattleSample_4 ;
+            sh:resultMessage "Result must be given once, as LHO:0 (negative) or LHO:1 (positive)." ;
+            sh:resultPath LHO:hasResult ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+            sh:sourceShape _:n5f9432f66913492e87dc753ebd8fda99b11 ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleCattleSample_4 ;
+            sh:resultMessage "Cattle sample needs exactly one of the seven BRD pathogens (BRSV, BCV, PI3, MH, PM, HS, MB)." ;
+            sh:resultPath LHO:hasPathogen ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:InConstraintComponent ;
+            sh:sourceShape [ sh:in ( LHO:BRSV LHO:BCV LHO:PI3 LHO:MH LHO:PM LHO:HS LHO:MB ) ;
+                    sh:maxCount 1 ;
+                    sh:message "Cattle sample needs exactly one of the seven BRD pathogens (BRSV, BCV, PI3, MH, PM, HS, MB)." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:hasPathogen ] ;
+            sh:value LHO:BVDV ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleCattleSample_3 ;
+            sh:resultMessage "One date is required, written as an ISO date (YYYY-MM-DD), so that data from different labs can be combined." ;
+            sh:resultPath LHO:hasDate ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:PatternConstraintComponent ;
+            sh:sourceShape [ sh:maxCount 1 ;
+                    sh:message "One date is required, written as an ISO date (YYYY-MM-DD), so that data from different labs can be combined." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:hasDate ;
+                    sh:pattern "#[0-9]{4}-[0-9]{2}-[0-9]{2}$" ] ;
+            sh:value <http://www.purl.org/decide/LiveStockHealthOnto/LHO#08/06/2022> ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleCattleSample_5 ;
+            sh:resultMessage "Result must be given once, as LHO:0 (negative) or LHO:1 (positive)." ;
+            sh:resultPath LHO:hasResult ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MaxCountConstraintComponent ;
+            sh:sourceShape _:n5f9432f66913492e87dc753ebd8fda99b11 ] .
+
+_:N770d2029c18f498dbf345bf6a30bdcf5 rdf:first LHO:0 ;
+    rdf:rest ( LHO:1 ) .
+
+_:n5f9432f66913492e87dc753ebd8fda99b11 sh:in _:N770d2029c18f498dbf345bf6a30bdcf5 ;
+    sh:maxCount 1 ;
+    sh:message "Result must be given once, as LHO:0 (negative) or LHO:1 (positive)." ;
+    sh:minCount 1 ;
+    sh:path LHO:hasResult .
+

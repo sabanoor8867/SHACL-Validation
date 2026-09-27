@@ -1,0 +1,50 @@
+@prefix LHO: <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleSalmonSample_3 ;
+            sh:resultMessage "Monthly report needs exactly one mortality value (kg), linked with LHO:CS58 (hasMortality)." ;
+            sh:resultPath LHO:CS58 ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+            sh:sourceShape [ sh:maxCount 1 ;
+                    sh:message "Monthly report needs exactly one mortality value (kg), linked with LHO:CS58 (hasMortality)." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:CS58 ] ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleSalmonSample_4 ;
+            sh:resultMessage "One date is required, written as an ISO date (YYYY-MM-DD)." ;
+            sh:resultPath LHO:hasDate ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+            sh:sourceShape [ sh:maxCount 1 ;
+                    sh:message "One date is required, written as an ISO date (YYYY-MM-DD)." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:hasDate ;
+                    sh:pattern "#[0-9]{4}-[0-9]{2}-[0-9]{2}$" ] ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleSalmonSample_3 ;
+            sh:resultMessage "Water type must be Seawater or Freshwater." ;
+            sh:resultPath LHO:CS57 ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:InConstraintComponent ;
+            sh:sourceShape [ sh:in ( LHO:Seawater LHO:Freshwater ) ;
+                    sh:maxCount 1 ;
+                    sh:message "Water type must be Seawater or Freshwater." ;
+                    sh:minCount 1 ;
+                    sh:path LHO:CS57 ] ;
+            sh:value LHO:sea ],
+        [ a sh:ValidationResult ;
+            sh:focusNode LHO:ExampleSalmonSample_4 ;
+            sh:resultMessage "A report can have at most one local authority." ;
+            sh:resultPath LHO:CS60 ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraintComponent sh:MaxCountConstraintComponent ;
+            sh:sourceShape [ sh:maxCount 1 ;
+                    sh:message "A report can have at most one local authority." ;
+                    sh:path LHO:CS60 ] ] .
+

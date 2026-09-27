@@ -1,0 +1,165 @@
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix LHO:    <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+@prefix lhosh:  <https://github.com/sabanoor8867/SHACL-Validation/shapes#> .
+
+# SHACL shapes for laboratory data mapped to the Livestock Health Ontology (LHO v1.5).
+# One shape per use case (cattle, pig, poultry, salmon) plus two shared checks.
+# Severity: sh:Violation = the record cannot be used as it is,
+#           sh:Warning   = the record can be used, but a value needs attention.
+
+lhosh:prefixes
+    sh:declare [ sh:prefix "LHO" ; sh:namespace "http://www.purl.org/decide/LiveStockHealthOnto/LHO#"^^xsd:anyURI ] ,
+               [ sh:prefix "owl" ; sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ] .
+
+# ---------------------------------------------------------------- cattle
+lhosh:CattleSampleShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:CattleSample ;
+    rdfs:comment "A cattle sample from the Cattle Barometer: one pathogen, one result, one test, one sample type, one date and one country." ;
+    sh:property [
+        sh:path LHO:hasPathogen ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:BRSV LHO:BCV LHO:PI3 LHO:MH LHO:PM LHO:HS LHO:MB ) ;
+        sh:message "Cattle sample needs exactly one of the seven BRD pathogens (BRSV, BCV, PI3, MH, PM, HS, MB)." ] ;
+    sh:property [
+        sh:path LHO:hasResult ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( LHO:0 LHO:1 ) ;
+        sh:message "Result must be given once, as LHO:0 (negative) or LHO:1 (positive)." ] ;
+    sh:property [
+        sh:path LHO:hasDiagnosticTest ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:PCR LHO:Culture LHO:NPS ) ;
+        sh:message "Diagnostic test must be PCR, Culture or NPS (nanopore sequencing)." ] ;
+    sh:property [
+        sh:path LHO:hasSampleType ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:BAL LHO:Swab LHO:Autopsy LHO:TTA ) ;
+        sh:message "Sample type must be BAL, Swab, Autopsy or TTA." ] ;
+    sh:property [
+        sh:path LHO:hasDate ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "#[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "One date is required, written as an ISO date (YYYY-MM-DD), so that data from different labs can be combined." ] ;
+    sh:property [
+        sh:path LHO:hasCountry ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "Sample needs exactly one country." ] .
+
+# ---------------------------------------------------------------- pig
+lhosh:PigSampleShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:PigSample ;
+    rdfs:comment "A pig sample from the Pig Barometer." ;
+    sh:property [
+        sh:path LHO:hasPathogen ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:Mycoplasma_hyopneumoniae LHO:Swine_influenza_virus LHO:Lawsonia_intracellularis LHO:PRRSV ) ;
+        sh:message "Pig sample needs exactly one of the pig barometer pathogens." ] ;
+    sh:property [
+        sh:path LHO:hasResult ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( LHO:0 LHO:1 ) ;
+        sh:message "Result must be given once, as LHO:0 (negative) or LHO:1 (positive). A missing result cannot be counted as negative." ] ;
+    sh:property [
+        sh:path LHO:hasDiagnosticTest ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Pig sample needs exactly one diagnostic test." ] ;
+    sh:property [
+        sh:path LHO:hasSampleType ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:Tissue LHO:Fluid LHO:Swab LHO:Feces LHO:Blood ) ;
+        sh:severity sh:Warning ;
+        sh:message "Sample type is not one of the LHO sample type classes (Tissue, Fluid, Swab, Feces, Blood)." ] ;
+    sh:property [
+        sh:path LHO:hasProductionStages ; sh:maxCount 1 ;
+        sh:message "A pig sample can have at most one production stage." ] ;
+    sh:property [
+        sh:path LHO:hasDate ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "#[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "One date is required, written as an ISO date (YYYY-MM-DD)." ] ;
+    sh:property [
+        sh:path LHO:hasCountry ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "Sample needs exactly one country." ] .
+
+# ---------------------------------------------------------------- poultry
+lhosh:PoultrySampleShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:PoultrySample ;
+    rdfs:comment "A broiler sample from the Poultry Barometer (IBV genotypes)." ;
+    sh:property [
+        sh:path LHO:hasPathogen ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:QX LHO:793B LHO:Mass LHO:D274 LHO:D2860 LHO:D181 LHO:D1466 LHO:CR88 LHO:Xindadi LHO:other ) ;
+        sh:message "Pathogen must be one of the IBV genotypes in the Poultry Barometer catalogue, or 'other'." ] ;
+    sh:property [
+        sh:path LHO:hasResult ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( LHO:0 LHO:1 ) ;
+        sh:message "Result must be given once, as LHO:0 or LHO:1." ] ;
+    sh:property [
+        sh:path LHO:hasProductionStages ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Poultry sample needs exactly one production stage (for example Broiler)." ] ;
+    sh:property [
+        sh:path LHO:hasSampleType ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Poultry sample needs exactly one sample type." ] ;
+    sh:property [
+        sh:path LHO:hasDate ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "#[0-9]{4}-(Q[1-4]|[0-9]{2}-[0-9]{2})$" ;
+        sh:message "One date is required, written as an ISO date (YYYY-MM-DD) or a quarter (YYYY-Qn), as used in the Poultry Barometer." ] ;
+    sh:property [
+        sh:path LHO:hasCountry ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "Sample needs exactly one country." ] .
+
+# ---------------------------------------------------------------- salmon
+lhosh:SalmonSampleShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:SalmonSample ;
+    rdfs:comment "A monthly salmon farm report (Scottish open data): mortality, biomass, water type, date and local authority." ;
+    sh:property [
+        sh:path LHO:CS58 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Monthly report needs exactly one mortality value (kg), linked with LHO:CS58 (hasMortality)." ] ;
+    sh:property [
+        sh:path LHO:CS56 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Monthly report needs exactly one actual biomass value (tonnes)." ] ;
+    sh:property [
+        sh:path LHO:CS57 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( LHO:Seawater LHO:Freshwater ) ;
+        sh:message "Water type must be Seawater or Freshwater." ] ;
+    sh:property [
+        sh:path LHO:CS60 ; sh:maxCount 1 ;
+        sh:message "A report can have at most one local authority." ] ;
+    sh:property [
+        sh:path LHO:hasDate ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "#[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "One date is required, written as an ISO date (YYYY-MM-DD)." ] ;
+    sh:property [
+        sh:path LHO:hasCountry ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Report needs exactly one country." ] .
+
+# ---------------------------------------------------------------- shared checks
+# "Missing" and "Unknown" are accepted: they are explicit categories in the barometer data
+# (a province or production stage that the laboratory did not record).
+# "nan" is not accepted without a warning: it is left over from pandas during the conversion
+# to RDF and should be written as "Missing".
+lhosh:PlaceholderValueShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:CattleSample , LHO:PigSample , LHO:PoultrySample ;
+    sh:property [ sh:path LHO:hasProvince ; sh:severity sh:Warning ;
+        sh:not [ sh:in ( LHO:nan ) ] ;
+        sh:message "Province is 'nan' (a conversion artefact); write it as Missing." ] ;
+    sh:property [ sh:path LHO:hasBreed ; sh:severity sh:Warning ;
+        sh:not [ sh:in ( LHO:nan ) ] ;
+        sh:message "Breed or production type is 'nan' (a conversion artefact); write it as Missing." ] ;
+    sh:property [ sh:path LHO:hasProductionStages ; sh:severity sh:Warning ;
+        sh:not [ sh:in ( LHO:nan ) ] ;
+        sh:message "Production stage is 'nan' (a conversion artefact); write it as Missing." ] .
+
+# Every LHO property used in the data should be declared in the ontology.
+# validate.py adds the property declarations of the ontology (not its individuals) next to the data.
+lhosh:DeclaredPropertyShape
+    a sh:NodeShape ;
+    sh:targetClass LHO:CattleSample , LHO:PigSample , LHO:PoultrySample , LHO:SalmonSample ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes lhosh:prefixes ;
+        sh:message "Property {?p} is used in the data but is not declared in the LHO ontology." ;
+        sh:select """
+            SELECT $this ?p
+            WHERE {
+                $this ?p ?o .
+                FILTER (STRSTARTS(STR(?p), "http://www.purl.org/decide/LiveStockHealthOnto/LHO#"))
+                FILTER NOT EXISTS { ?p a owl:ObjectProperty }
+                FILTER NOT EXISTS { ?p a owl:DatatypeProperty }
+            }
+        """ ] .

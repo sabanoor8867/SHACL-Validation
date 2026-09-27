@@ -1,0 +1,52 @@
+@prefix LHO:  <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Synthetic example records in the same structure as the Cattle Barometer RDF.
+# Samples 1 and 2 are valid. Samples 3 to 5 contain the kinds of problems found in real lab exports.
+
+LHO:ExampleCattleSample_1 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:BRSV ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:BAL ;
+    LHO:hasDate LHO:2022-06-08 ;
+    LHO:hasCountry LHO:Belgium ;
+    LHO:hasProvince LHO:EastFlanders ;
+    LHO:hasBreed LHO:Dairy .
+
+LHO:ExampleCattleSample_2 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:MH ;
+    LHO:hasResult LHO:0 ;
+    LHO:hasDiagnosticTest LHO:Culture ;
+    LHO:hasSampleType LHO:Swab ;
+    LHO:hasDate LHO:2022-06-08 ;
+    LHO:hasCountry LHO:TheNetherlands ;
+    LHO:hasBreed LHO:Veal .
+
+# date written as dd/mm/yyyy and province "nan" (breed "Unknown" is accepted)
+LHO:ExampleCattleSample_3 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:PM ;
+    LHO:hasResult LHO:0 ;
+    LHO:hasDiagnosticTest LHO:NPS ;
+    LHO:hasSampleType LHO:BAL ;
+    LHO:hasDate <http://www.purl.org/decide/LiveStockHealthOnto/LHO#08/06/2022> ;
+    LHO:hasCountry LHO:Belgium ;
+    LHO:hasProvince LHO:nan ;
+    LHO:hasBreed LHO:Unknown .
+
+# result missing and pathogen outside the seven BRD pathogens
+LHO:ExampleCattleSample_4 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:BVDV ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:BAL ;
+    LHO:hasDate LHO:2022-07-01 ;
+    LHO:hasCountry LHO:Ireland .
+
+# two results for one sample
+LHO:ExampleCattleSample_5 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:HS ;
+    LHO:hasResult LHO:0 , LHO:1 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Autopsy ;
+    LHO:hasDate LHO:2022-07-01 ;
+    LHO:hasCountry LHO:France .

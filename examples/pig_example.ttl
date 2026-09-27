@@ -1,0 +1,47 @@
+@prefix LHO:  <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+
+# Synthetic example records in the same structure as the Pig Barometer RDF.
+# Samples 1 and 2 are valid. Samples 3 and 4 contain problems.
+
+LHO:ExamplePigSample_1 a LHO:PigSample ;
+    LHO:hasPathogen LHO:Swine_influenza_virus ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Tissue ;
+    LHO:hasProductionStages LHO:Nursery ;
+    LHO:hasDate LHO:2023-02-08 ;
+    LHO:hasCountry LHO:Spain ;
+    LHO:hasProvince LHO:Huesca ;
+    LHO:hasBreed LHO:Meat .
+
+LHO:ExamplePigSample_2 a LHO:PigSample ;
+    LHO:hasPathogen LHO:Mycoplasma_hyopneumoniae ;
+    LHO:hasResult LHO:0 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Fluid ;
+    LHO:hasProductionStages LHO:Finishing ;
+    LHO:hasDate LHO:2023-03-16 ;
+    LHO:hasCountry LHO:Spain ;
+    LHO:hasProvince LHO:Lleida ;
+    LHO:hasBreed LHO:Meat .
+
+# no result (negative results left out of the export); "Missing" values are accepted
+LHO:ExamplePigSample_3 a LHO:PigSample ;
+    LHO:hasPathogen LHO:Lawsonia_intracellularis ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Feces ;
+    LHO:hasProductionStages LHO:Missing ;
+    LHO:hasDate LHO:2021-10-15 ;
+    LHO:hasCountry LHO:Spain ;
+    LHO:hasProvince LHO:Missing ;
+    LHO:hasBreed LHO:Meat .
+
+# sample type not in the ontology and two production stages
+LHO:ExamplePigSample_4 a LHO:PigSample ;
+    LHO:hasPathogen LHO:Swine_influenza_virus ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Mixed ;
+    LHO:hasProductionStages LHO:Sow , LHO:Weaning ;
+    LHO:hasDate LHO:2023-06-04 ;
+    LHO:hasCountry LHO:Spain .

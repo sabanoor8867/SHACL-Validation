@@ -1,0 +1,44 @@
+@prefix LHO:  <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+
+# One complete record per use case. All four follow the shapes, so this file
+# passes with 0 violations and 0 warnings. Compare with the other example files,
+# which contain problems on purpose.
+
+LHO:IdealCattleSample_1 a LHO:CattleSample ;
+    LHO:hasPathogen LHO:BRSV ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:BAL ;
+    LHO:hasDate LHO:2022-06-08 ;
+    LHO:hasCountry LHO:Belgium ;
+    LHO:hasProvince LHO:EastFlanders ;
+    LHO:hasBreed LHO:Dairy .
+
+LHO:IdealPigSample_1 a LHO:PigSample ;
+    LHO:hasPathogen LHO:Mycoplasma_hyopneumoniae ;
+    LHO:hasResult LHO:0 ;
+    LHO:hasDiagnosticTest LHO:PCR ;
+    LHO:hasSampleType LHO:Fluid ;
+    LHO:hasProductionStages LHO:Finishing ;
+    LHO:hasDate LHO:2023-03-16 ;
+    LHO:hasCountry LHO:Spain ;
+    LHO:hasProvince LHO:Lleida ;
+    LHO:hasBreed LHO:Meat .
+
+LHO:IdealPoultrySample_1 a LHO:PoultrySample ;
+    LHO:hasPathogen LHO:QX ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasSampleType LHO:SS ;
+    LHO:hasProductionStages LHO:Broiler ;
+    LHO:hasDate LHO:2019-Q2 ;
+    LHO:hasCountry LHO:TheNetherlands ;
+    LHO:hasProvince LHO:Noord-Brabant ;
+    LHO:hasBreed LHO:Meat .
+
+LHO:IdealSalmonSample_1 a LHO:SalmonSample ;
+    LHO:CS58 <http://www.purl.org/decide/LiveStockHealthOnto/LHO#1708.1> ;
+    LHO:CS56 LHO:149 ;
+    LHO:CS57 LHO:Seawater ;
+    LHO:CS60 LHO:ArgyllandBute ;
+    LHO:hasDate LHO:2024-12-01 ;
+    LHO:hasCountry LHO:Scotland .

@@ -1,0 +1,37 @@
+@prefix LHO:  <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+
+# Synthetic example records in the same structure as the salmon use case
+# (monthly farm reports: mortality in kg, actual biomass in tonnes, water type, local authority).
+# Mortality is linked with LHO:CS58 (hasMortality), as declared in LHO v1.5.
+# Reports 1 and 2 are valid. Reports 3 and 4 contain problems.
+
+LHO:ExampleSalmonSample_1 a LHO:SalmonSample ;
+    LHO:CS58 <http://www.purl.org/decide/LiveStockHealthOnto/LHO#1708.1> ;
+    LHO:CS56 LHO:149 ;
+    LHO:CS57 LHO:Seawater ;
+    LHO:CS60 LHO:ArgyllandBute ;
+    LHO:hasDate LHO:2024-12-01 ;
+    LHO:hasCountry LHO:Scotland .
+
+LHO:ExampleSalmonSample_2 a LHO:SalmonSample ;
+    LHO:CS58 LHO:0 ;
+    LHO:CS56 LHO:575 ;
+    LHO:CS57 LHO:Freshwater ;
+    LHO:CS60 LHO:Highland ;
+    LHO:hasDate LHO:2024-11-01 ;
+    LHO:hasCountry LHO:Scotland .
+
+# mortality missing and water type written differently
+LHO:ExampleSalmonSample_3 a LHO:SalmonSample ;
+    LHO:CS56 LHO:340 ;
+    LHO:CS57 LHO:sea ;
+    LHO:hasDate LHO:2024-10-01 ;
+    LHO:hasCountry LHO:Scotland .
+
+# two local authorities and no date
+LHO:ExampleSalmonSample_4 a LHO:SalmonSample ;
+    LHO:CS58 LHO:74 ;
+    LHO:CS56 LHO:1882 ;
+    LHO:CS57 LHO:Seawater ;
+    LHO:CS60 LHO:Highland , LHO:ShetlandIslands ;
+    LHO:hasCountry LHO:Scotland .

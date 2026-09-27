@@ -1,0 +1,41 @@
+@prefix LHO:  <http://www.purl.org/decide/LiveStockHealthOnto/LHO#> .
+
+# Synthetic example records in the same structure as the Poultry Barometer RDF (IBV genotypes, broilers).
+# Samples 1 and 2 are valid. Samples 3 and 4 contain problems.
+
+LHO:ExamplePoultrySample_1 a LHO:PoultrySample ;
+    LHO:hasPathogen LHO:QX ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasSampleType LHO:SS ;
+    LHO:hasProductionStages LHO:Broiler ;
+    LHO:hasDate LHO:2019-Q2 ;
+    LHO:hasCountry LHO:TheNetherlands ;
+    LHO:hasProvince LHO:Noord-Brabant ;
+    LHO:hasBreed LHO:Meat .
+
+LHO:ExamplePoultrySample_2 a LHO:PoultrySample ;
+    LHO:hasPathogen LHO:793B ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasSampleType LHO:SS ;
+    LHO:hasProductionStages LHO:Broiler ;
+    LHO:hasDate LHO:2020-Q1 ;
+    LHO:hasCountry LHO:TheNetherlands ;
+    LHO:hasProvince LHO:Limburg ;
+    LHO:hasBreed LHO:Meat .
+
+# genotype "4/91" lost its slash during conversion and became "491"
+LHO:ExamplePoultrySample_3 a LHO:PoultrySample ;
+    LHO:hasPathogen LHO:491 ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasSampleType LHO:SS ;
+    LHO:hasProductionStages LHO:Broiler ;
+    LHO:hasDate LHO:2019-Q4 ;
+    LHO:hasCountry LHO:TheNetherlands .
+
+# production stage missing and date that is neither a date nor a quarter
+LHO:ExamplePoultrySample_4 a LHO:PoultrySample ;
+    LHO:hasPathogen LHO:Mass ;
+    LHO:hasResult LHO:1 ;
+    LHO:hasSampleType LHO:SSS ;
+    LHO:hasDate LHO:2021-summer ;
+    LHO:hasCountry LHO:TheNetherlands .
